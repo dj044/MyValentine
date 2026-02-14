@@ -187,13 +187,22 @@ I don’t just like you — I’m choosing you.</div>
       <div class="card" id="roka">
         <div class="cardHead">
           <p class="title">Roka Day 💍</p>
-          <p class="date">Add date here</p>
+          <p class="date">8 October 2025 • <span id="rokaCounter"></span></p>
         </div>
         <img class="img" src="roka.jpg" alt="Roka" onclick="openModal(this.src)" />
-        <div class="body">Write a 2–3 line memory here.
-Example:
-That day, it became official — but in my heart, it already was.
-I’m grateful for you, and excited for every chapter ahead.</div>
+        <div class="body">8 October 2025 💍
+
+That day, it wasn’t just a ceremony.
+It was the moment our forever became official.
+
+Standing next to you,
+seeing our families smile,
+I felt calm… certain… grateful.
+
+I didn’t just gain a fiancée that day.
+I gained my partner, my best friend, my home.
+
+And this is just the beginning ❤️</div>
       </div>
 
       <!-- Final note -->
@@ -230,13 +239,25 @@ Happy Valentine’s Day, my forever.
   function scrollToId(id){
     document.getElementById(id).scrollIntoView({behavior:"smooth", block:"start"});
   }
+
   function openModal(src){
     const m = document.getElementById("modal");
     document.getElementById("modalImg").src = src;
     m.style.display = "flex";
   }
+
   function closeModal(){
     document.getElementById("modal").style.display = "none";
+  }
+
+  // Roka Counter (Month is 0-based: 9 = October)
+  const rokaDate = new Date(2025, 9, 8, 0, 0, 0);
+  const now = new Date();
+  const diffTime = now.getTime() - rokaDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const rokaCounterEl = document.getElementById("rokaCounter");
+  if (rokaCounterEl) {
+    rokaCounterEl.innerText = (diffDays >= 0 ? diffDays : 0) + " days of us";
   }
 </script>
 </body>
