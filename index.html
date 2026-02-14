@@ -43,6 +43,148 @@
       min-height: 100vh;
     }
 
+    /* ===== Royal Opening Seal Overlay ===== */
+    .sealOverlay{
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background:
+        radial-gradient(900px 520px at 20% 10%, rgba(216,90,139,.28), transparent 60%),
+        radial-gradient(900px 520px at 82% 0%, rgba(176,141,87,.14), transparent 55%),
+        linear-gradient(180deg, #fff0f6, #ffe0ea);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .sealOverlay.hidden{
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
+
+    .envelope{
+      width: 100%;
+      max-width: 680px;
+      background: linear-gradient(180deg, #fff8fb, #fff0f7);
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 26px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle paper texture */
+    .envelope::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(0,0,0,.05), transparent 35%),
+        radial-gradient(circle at 70% 60%, rgba(0,0,0,.04), transparent 40%),
+        radial-gradient(circle at 40% 90%, rgba(0,0,0,.03), transparent 45%);
+      opacity:.22;
+      pointer-events:none;
+    }
+
+    /* inner gold frame */
+    .envelope::after{
+      content:"";
+      position:absolute;
+      inset: 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(176,141,87,.45);
+      box-shadow: inset 0 0 0 1px rgba(216,90,139,.18);
+      pointer-events:none;
+    }
+
+    .envContent{
+      padding: 26px 22px 22px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .royalTag{
+      display:inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(216,90,139,.35);
+      background: rgba(216,90,139,.10);
+      color: var(--rose2);
+      font-size: 14px;
+      letter-spacing: .4px;
+      font-weight: 600;
+    }
+
+    .toLine{
+      margin: 14px 0 6px;
+      font-size: 20px;
+      color: rgba(0,0,0,.68);
+    }
+
+    .herMajesty{
+      margin: 0 0 10px;
+      font-family: "Great Vibes", cursive;
+      font-size: 56px;
+      font-weight: 400;
+      color: #2a141f;
+    }
+
+    .envNote{
+      margin: 0 auto 18px;
+      max-width: 520px;
+      color: rgba(0,0,0,.62);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .sealBtn{
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #e66a9a, #b84b74);
+      box-shadow: 0 18px 30px rgba(184,75,116,.35);
+      color: white;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      border: 1px solid rgba(255,255,255,.25);
+      transition: transform .12s ease;
+    }
+    .sealBtn:hover{ transform: translateY(-1px); }
+
+    .wax{
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 45%),
+                  radial-gradient(circle at 70% 80%, rgba(0,0,0,.18), transparent 55%),
+                  #9b1c49;
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.10);
+      display: grid;
+      place-items: center;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 800;
+      color: rgba(255,255,255,.92);
+      letter-spacing: .5px;
+    }
+
+    .envSmall{
+      margin-top: 14px;
+      font-size: 14px;
+      color: rgba(0,0,0,.55);
+    }
+
+    /* ===== Main site ===== */
     .wrap{ max-width: 940px; margin: 0 auto; padding: 28px 16px 80px; }
 
     .hero{
@@ -92,6 +234,7 @@
       position: relative;
       z-index: 1;
       text-shadow: 0 1px 0 rgba(255,255,255,.5);
+      user-select: none;
     }
 
     .sub{
@@ -199,20 +342,16 @@
       z-index: 1;
     }
 
-    /* ✅ Photo proportion fix:
-       - Use auto height (no forced crop)
-       - Keep within a nice frame
-       - Support both portrait & landscape
-    */
+    /* Photo proportions: show full image, no distortion */
     .img{
       width:100%;
-      height: auto;          /* important */
-      max-height: 80vh;      /* prevents huge tall images */
-      object-fit: contain;   /* shows full image */
+      height: auto;
+      max-height: 80vh;
+      object-fit: contain;
       display:block;
       background: linear-gradient(180deg, rgba(216,90,139,.08), rgba(176,141,87,.05));
       cursor: zoom-in;
-      padding: 10px 10px 0;  /* gives “framed” look */
+      padding: 10px 10px 0;
       box-sizing: border-box;
       position: relative;
       z-index: 1;
@@ -288,6 +427,28 @@
 </head>
 
 <body>
+  <!-- Royal Opening Seal -->
+  <div class="sealOverlay" id="sealOverlay">
+    <div class="envelope">
+      <div class="envContent">
+        <div class="royalTag">Sealed With Love</div>
+        <div class="toLine">To Her Majesty</div>
+        <div class="herMajesty">Jasleen</div>
+        <p class="envNote">
+          A royal little chronicle of our beginnings —
+          crafted with an old-school heart, just for you.
+        </p>
+
+        <button class="sealBtn" onclick="breakSeal()">
+          <span class="wax">JD</span>
+          Break the Seal
+        </button>
+
+        <div class="envSmall">Tap to open ✨</div>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="hero">
       <div class="pill">A Valentine Chronicle</div>
@@ -452,6 +613,13 @@ Happy Valentine’s Day, my forever. ❤️
   </div>
 
 <script>
+  function breakSeal(){
+    const overlay = document.getElementById("sealOverlay");
+    overlay.classList.add("hidden");
+    // allow animation to finish, then remove
+    setTimeout(() => overlay.style.display = "none", 650);
+  }
+
   function scrollToId(id){
     document.getElementById(id).scrollIntoView({behavior:"smooth", block:"start"});
   }
