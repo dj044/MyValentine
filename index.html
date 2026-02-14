@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <!-- iPhone-friendly viewport (prevents weird scaling) -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Jasleen ❤️ Daljeet</title>
 
@@ -26,7 +25,9 @@
       --radius: 22px;
     }
 
-    /* iPhone safe area padding */
+    html { scroll-behavior: smooth; }
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+
     body{
       margin:0;
       color: var(--text);
@@ -46,12 +47,6 @@
       -webkit-text-size-adjust: 100%;
       text-rendering: optimizeLegibility;
     }
-
-    /* Smooth scrolling on iOS */
-    html { scroll-behavior: smooth; }
-
-    /* Prevent tap highlight on iOS */
-    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
 
     /* ===== Royal Opening Seal ===== */
     .sealOverlay{
@@ -148,7 +143,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 14px 18px;         /* bigger tap area for iPhone */
+      padding: 14px 18px;
       border-radius: 999px;
       background: radial-gradient(circle at 30% 30%, #e66a9a, #b84b74);
       box-shadow: 0 18px 30px rgba(184,75,116,.35);
@@ -159,7 +154,7 @@
       letter-spacing: .3px;
       border: 1px solid rgba(255,255,255,.25);
       transition: transform .12s ease;
-      min-height: 48px; /* iOS recommended minimum */
+      min-height: 48px;
     }
     .sealBtn:active{ transform: scale(.99); }
     .wax{
@@ -240,8 +235,31 @@
       user-select: none;
     }
 
+    /* Typewriter line container */
+    .typeLine{
+      margin: 6px auto 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      color: rgba(0,0,0,.66);
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 760px;
+    }
+    .typeText{
+      display: inline;
+    }
+    .cursor{
+      display:inline-block;
+      width: 10px;
+      margin-left: 2px;
+      color: rgba(184,75,116,.9);
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink{ 50% { opacity: 0; } }
+
     .sub{
-      margin: 0;
+      margin: 10px 0 0;
       color: var(--muted);
       line-height: 1.65;
       font-size: 18px;
@@ -258,7 +276,6 @@
       z-index: 1;
     }
 
-    /* iPhone-friendly: buttons wrap + full width on small screens */
     .btnRow{
       display:flex;
       gap:10px;
@@ -279,7 +296,7 @@
       font-family: "Cormorant Garamond", serif;
       color: #2a141f;
       box-shadow: 0 10px 18px rgba(0,0,0,.06);
-      min-height: 46px; /* good tap target */
+      min-height: 46px;
     }
     .btn:active{ transform: scale(.99); }
 
@@ -350,11 +367,6 @@
       z-index: 1;
     }
 
-    /* ✅ Photo proportion fix + iPhone friendly:
-       - no distortion
-       - fits on screen
-       - tap to full-screen
-    */
     .img{
       width:100%;
       height:auto;
@@ -392,7 +404,7 @@
     }
     .footer span{ color: rgba(216,90,139,.95); font-weight: 700; }
 
-    /* ===== Modal (iPhone friendly) ===== */
+    /* Modal */
     .modal{
       position:fixed;
       inset:0;
@@ -434,13 +446,13 @@
     }
     .close:active{ transform: scale(.99); }
 
-    /* Small screens: make buttons easier */
     @media (max-width: 460px){
       .btnRow{ gap: 8px; }
-      .btn{ flex: 1 1 45%; } /* two per row on iPhone */
+      .btn{ flex: 1 1 45%; }
       .title{ font-size: 20px; }
       .body{ font-size: 17px; }
       .meta{ font-size: 14px; }
+      .typeLine{ font-size: 17px; }
     }
   </style>
 </head>
@@ -472,6 +484,11 @@
     <div class="hero">
       <div class="pill">A Valentine Chronicle</div>
       <div class="names">Jasleen &amp; Daljeet</div>
+
+      <!-- ✅ Your message in a typewriter effect -->
+      <div class="typeLine" aria-live="polite">
+        <span class="typeText" id="typeText"></span><span class="cursor">|</span>
+      </div>
 
       <p class="sub">
         A tiny website with an old-school heart.
@@ -589,11 +606,46 @@ Daljeet ❤️</div>
   </div>
 
   <script>
+    // ✅ Typewriter text (your line)
+    const messageLines = [
+      "Happy Valentine’s Day",
+      "from your hone wala pati.",
+      "A little tech.",
+      "A little magic.",
+      "But the love? Infinite. ♾️❤️"
+    ];
+
+    function startTypewriter(){
+      const el = document.getElementById("typeText");
+      if (!el) return;
+      el.textContent = "";
+      let line = 0, char = 0;
+
+      function type(){
+        if (line >= messageLines.length) return;
+        const current = messageLines[line];
+
+        if (char < current.length){
+          el.textContent += current[char];
+          char++;
+          setTimeout(type, 35);
+        } else {
+          // line break
+          el.textContent += "\n";
+          line++;
+          char = 0;
+          setTimeout(type, 320);
+        }
+      }
+      type();
+    }
+
     function breakSeal(){
       const overlay = document.getElementById("sealOverlay");
       overlay.classList.add("hidden");
-      // allow animation to finish, then remove
       setTimeout(() => overlay.style.display = "none", 650);
+      // start typewriter after opening
+      setTimeout(startTypewriter, 450);
     }
 
     function scrollToId(id){
@@ -605,8 +657,7 @@ Daljeet ❤️</div>
     function openModal(src){
       document.getElementById("modalImg").src = src;
       document.getElementById("modal").style.display = "flex";
-      // prevent background scroll on iPhone
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "hidden"; // prevent iOS background scroll
     }
 
     function closeModal(){
@@ -614,7 +665,6 @@ Daljeet ❤️</div>
       document.body.style.overflow = "";
     }
 
-    // Close modal with ESC (nice on desktop)
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModal();
     });
@@ -623,8 +673,8 @@ Daljeet ❤️</div>
     const rokaDate = new Date(2025, 9, 8, 0, 0, 0);
     const now = new Date();
     const diffDays = Math.floor((now - rokaDate) / (1000 * 60 * 60 * 24));
-    const el = document.getElementById("rokaCounter");
-    if (el) el.textContent = (diffDays >= 0 ? diffDays : 0) + " days of us";
+    const rokaEl = document.getElementById("rokaCounter");
+    if (rokaEl) rokaEl.textContent = (diffDays >= 0 ? diffDays : 0) + " days of us";
   </script>
 </body>
 </html>
