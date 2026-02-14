@@ -12,8 +12,10 @@
 
   <style>
     :root{
+      /* Pink + Italy sunset + royal */
       --bg1:#fff2f6;
       --bg2:#ffe1ea;
+      --tuscany:#f7c59f;
       --card:#fff9fb;
       --text:#1f1a1d;
       --muted: rgba(0,0,0,.62);
@@ -32,10 +34,11 @@
       margin:0;
       color: var(--text);
       font-family: "Cormorant Garamond", serif;
+      /* Italy sunset + pink romance */
       background:
-        radial-gradient(900px 520px at 18% 10%, rgba(216,90,139,.20), transparent 60%),
-        radial-gradient(900px 520px at 82% 0%, rgba(176,141,87,.10), transparent 55%),
-        radial-gradient(700px 520px at 70% 90%, rgba(216,90,139,.14), transparent 60%),
+        radial-gradient(900px 520px at 12% 0%, rgba(247,197,159,.22), transparent 60%),
+        radial-gradient(900px 520px at 88% 0%, rgba(216,90,139,.20), transparent 60%),
+        radial-gradient(700px 520px at 70% 95%, rgba(216,90,139,.12), transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
       min-height: 100vh;
       padding:
@@ -46,6 +49,20 @@
       -webkit-font-smoothing: antialiased;
       -webkit-text-size-adjust: 100%;
       text-rendering: optimizeLegibility;
+    }
+
+    /* subtle Italy watermark */
+    body::after{
+      content:"ROMA • FIRENZE • VENEZIA • AMORE";
+      position: fixed;
+      bottom: 14px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: rgba(0,0,0,.07);
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* ===== Royal Opening Seal ===== */
@@ -59,7 +76,7 @@
       padding: 18px;
       background:
         radial-gradient(900px 520px at 20% 10%, rgba(216,90,139,.28), transparent 60%),
-        radial-gradient(900px 520px at 82% 0%, rgba(176,141,87,.14), transparent 55%),
+        radial-gradient(900px 520px at 82% 0%, rgba(247,197,159,.22), transparent 55%),
         linear-gradient(180deg, #fff0f6, #ffe0ea);
       transition: opacity .6s ease, transform .6s ease;
     }
@@ -183,6 +200,8 @@
       max-width: 940px;
       margin: 0 auto;
       padding: 18px 16px 80px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero{
@@ -235,7 +254,7 @@
       user-select: none;
     }
 
-    /* Typewriter line container */
+    /* Typewriter line */
     .typeLine{
       margin: 6px auto 0;
       text-align: center;
@@ -245,9 +264,7 @@
       font-size: 18px;
       line-height: 1.6;
       max-width: 760px;
-    }
-    .typeText{
-      display: inline;
+      white-space: pre-line;
     }
     .cursor{
       display:inline-block;
@@ -257,6 +274,17 @@
       animation: blink 1s step-end infinite;
     }
     @keyframes blink{ 50% { opacity: 0; } }
+
+    /* Italy vibe line */
+    .italyLine{
+      text-align:center;
+      font-style: italic;
+      margin-top: 8px;
+      font-size: 17px;
+      color: rgba(0,0,0,.55);
+      position: relative;
+      z-index: 1;
+    }
 
     .sub{
       margin: 10px 0 0;
@@ -367,13 +395,14 @@
       z-index: 1;
     }
 
+    /* Photos: no distortion + iPhone friendly */
     .img{
       width:100%;
       height:auto;
       max-height: 70vh;
       object-fit: contain;
       display:block;
-      background: linear-gradient(180deg, rgba(216,90,139,.08), rgba(176,141,87,.05));
+      background: linear-gradient(180deg, rgba(216,90,139,.08), rgba(247,197,159,.08));
       cursor: zoom-in;
       padding: 10px 10px 0;
       position: relative;
@@ -404,7 +433,7 @@
     }
     .footer span{ color: rgba(216,90,139,.95); font-weight: 700; }
 
-    /* Modal */
+    /* ===== Modal ===== */
     .modal{
       position:fixed;
       inset:0;
@@ -466,8 +495,8 @@
         <div class="toLine">To Her Majesty</div>
         <div class="herMajesty">Jasleen</div>
         <p class="envNote">
-          A royal little chronicle of our beginnings —
-          crafted with an old-school heart, just for you.
+          A royal little chronicle of our love —
+          with a touch of Italy in every chapter. 🇮🇹
         </p>
 
         <button class="sealBtn" onclick="breakSeal()">
@@ -485,10 +514,13 @@
       <div class="pill">A Valentine Chronicle</div>
       <div class="names">Jasleen &amp; Daljeet</div>
 
-      <!-- ✅ Your message in a typewriter effect -->
+      <!-- Typewriter message -->
       <div class="typeLine" aria-live="polite">
-        <span class="typeText" id="typeText"></span><span class="cursor">|</span>
+        <span id="typeText"></span><span class="cursor">|</span>
       </div>
+
+      <!-- Italy vibe line -->
+      <div class="italyLine">Amore mio, per sempre. ❤️</div>
 
       <p class="sub">
         A tiny website with an old-school heart.
@@ -510,7 +542,7 @@
     </div>
 
     <div class="timeline">
-      <!-- First Meet -->
+      <!-- 1 -->
       <div class="card" id="m1">
         <div class="cardHead">
           <p class="title">Our First Meet ✨</p>
@@ -523,11 +555,11 @@ I walked in curious… I walked out certain.
 That was the first page of our forever. ❤️</div>
       </div>
 
-      <!-- Second Meet -->
+      <!-- 2 -->
       <div class="card" id="m2">
         <div class="cardHead">
           <p class="title">Our Second Meet 💛</p>
-          <p class="date">3 Aug 2025</p>
+          <p class="date">9 Aug 2025</p>
         </div>
         <div class="meta">Delhi</div>
         <img class="img" src="second-meet.jpg" alt="Second meet" onclick="openModal(this.src)" />
@@ -536,7 +568,7 @@ And a quiet realization —
 I’m choosing you. Every day.</div>
       </div>
 
-      <!-- First Shoot -->
+      <!-- 3 -->
       <div class="card" id="m3">
         <div class="cardHead">
           <p class="title">First Professional Shoot 📸</p>
@@ -548,7 +580,7 @@ I’m choosing you. Every day.</div>
 We were capturing the beginning of a legacy.</div>
       </div>
 
-      <!-- Roka -->
+      <!-- 4 -->
       <div class="card" id="m4">
         <div class="cardHead">
           <p class="title">Roka Day 💍</p>
@@ -560,7 +592,7 @@ We were capturing the beginning of a legacy.</div>
 because I stood beside my queen. ❤️</div>
       </div>
 
-      <!-- Close Moments -->
+      <!-- 5 -->
       <div class="card" id="m5">
         <div class="cardHead">
           <p class="title">Close Moments 🤍</p>
@@ -585,9 +617,14 @@ Not rushed… just right.
 The kind of day that feels royal and timeless,
 with our families smiling and our hearts calm.
 
+And someday…
+sunsets in Tuscany,
+espresso in Rome,
+holding your hand in Florence.
+
 And yes… I’m also manifesting twins. 😄
 Two tiny versions of us,
-running around, filling our home with laughter.
+two little bambini running around us. 🇮🇹❤️
 
 Forever yours,
 Daljeet ❤️</div>
@@ -606,7 +643,7 @@ Daljeet ❤️</div>
   </div>
 
   <script>
-    // ✅ Typewriter text (your line)
+    // Typewriter text
     const messageLines = [
       "Happy Valentine’s Day",
       "from your hone wala pati.",
@@ -630,7 +667,6 @@ Daljeet ❤️</div>
           char++;
           setTimeout(type, 35);
         } else {
-          // line break
           el.textContent += "\n";
           line++;
           char = 0;
@@ -644,7 +680,6 @@ Daljeet ❤️</div>
       const overlay = document.getElementById("sealOverlay");
       overlay.classList.add("hidden");
       setTimeout(() => overlay.style.display = "none", 650);
-      // start typewriter after opening
       setTimeout(startTypewriter, 450);
     }
 
@@ -657,7 +692,7 @@ Daljeet ❤️</div>
     function openModal(src){
       document.getElementById("modalImg").src = src;
       document.getElementById("modal").style.display = "flex";
-      document.body.style.overflow = "hidden"; // prevent iOS background scroll
+      document.body.style.overflow = "hidden";
     }
 
     function closeModal(){
