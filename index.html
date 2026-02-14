@@ -2,35 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <!-- iPhone-friendly viewport (prevents weird scaling) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>Jasleen ❤️ Daljeet</title>
 
-  <!-- Old-school + royal fonts -->
+  <!-- Royal + Old School Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* Pink + royal palette */
       --bg1:#fff2f6;
       --bg2:#ffe1ea;
       --card:#fff9fb;
       --text:#1f1a1d;
       --muted: rgba(0,0,0,.62);
       --border: rgba(0,0,0,.10);
-
       --rose:#d85a8b;
       --rose2:#b84b74;
-
-      /* “soft gold” accent so it still feels royal */
       --gold:#b08d57;
-      --gold2:#8b6b3f;
-
       --shadow: 0 18px 44px rgba(0,0,0,.11);
       --radius: 22px;
     }
 
+    /* iPhone safe area padding */
     body{
       margin:0;
       color: var(--text);
@@ -41,9 +37,23 @@
         radial-gradient(700px 520px at 70% 90%, rgba(216,90,139,.14), transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
       min-height: 100vh;
+      padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      text-rendering: optimizeLegibility;
     }
 
-    /* ===== Royal Opening Seal Overlay ===== */
+    /* Smooth scrolling on iOS */
+    html { scroll-behavior: smooth; }
+
+    /* Prevent tap highlight on iOS */
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+
+    /* ===== Royal Opening Seal ===== */
     .sealOverlay{
       position: fixed;
       inset: 0;
@@ -58,16 +68,14 @@
         linear-gradient(180deg, #fff0f6, #ffe0ea);
       transition: opacity .6s ease, transform .6s ease;
     }
-
     .sealOverlay.hidden{
       opacity: 0;
-      transform: translateY(-8px);
+      transform: translateY(-6px);
       pointer-events: none;
     }
 
     .envelope{
-      width: 100%;
-      max-width: 680px;
+      width: min(720px, 100%);
       background: linear-gradient(180deg, #fff8fb, #fff0f7);
       border: 1px solid rgba(0,0,0,.10);
       border-radius: 26px;
@@ -75,8 +83,6 @@
       position: relative;
       overflow: hidden;
     }
-
-    /* subtle paper texture */
     .envelope::before{
       content:"";
       position:absolute;
@@ -88,8 +94,6 @@
       opacity:.22;
       pointer-events:none;
     }
-
-    /* inner gold frame */
     .envelope::after{
       content:"";
       position:absolute;
@@ -99,14 +103,12 @@
       box-shadow: inset 0 0 0 1px rgba(216,90,139,.18);
       pointer-events:none;
     }
-
     .envContent{
-      padding: 26px 22px 22px;
+      padding: 26px 18px 22px;
       text-align: center;
       position: relative;
       z-index: 1;
     }
-
     .royalTag{
       display:inline-block;
       padding: 8px 14px;
@@ -118,37 +120,35 @@
       letter-spacing: .4px;
       font-weight: 600;
     }
-
     .toLine{
       margin: 14px 0 6px;
-      font-size: 20px;
+      font-size: 18px;
       color: rgba(0,0,0,.68);
     }
-
     .herMajesty{
       margin: 0 0 10px;
       font-family: "Great Vibes", cursive;
-      font-size: 56px;
+      font-size: clamp(44px, 9vw, 64px);
       font-weight: 400;
       color: #2a141f;
+      line-height: 1.05;
     }
-
     .envNote{
       margin: 0 auto 18px;
-      max-width: 520px;
+      max-width: 560px;
       color: rgba(0,0,0,.62);
       font-size: 18px;
       line-height: 1.6;
     }
-
     .sealBtn{
       appearance: none;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      padding: 12px 18px;
+      padding: 14px 18px;         /* bigger tap area for iPhone */
       border-radius: 999px;
       background: radial-gradient(circle at 30% 30%, #e66a9a, #b84b74);
       box-shadow: 0 18px 30px rgba(184,75,116,.35);
@@ -159,9 +159,9 @@
       letter-spacing: .3px;
       border: 1px solid rgba(255,255,255,.25);
       transition: transform .12s ease;
+      min-height: 48px; /* iOS recommended minimum */
     }
-    .sealBtn:hover{ transform: translateY(-1px); }
-
+    .sealBtn:active{ transform: scale(.99); }
     .wax{
       width: 34px; height: 34px;
       border-radius: 50%;
@@ -172,33 +172,35 @@
       box-shadow: inset 0 0 0 2px rgba(255,255,255,.10);
       display: grid;
       place-items: center;
-      font-family: "Cormorant Garamond", serif;
       font-weight: 800;
       color: rgba(255,255,255,.92);
       letter-spacing: .5px;
+      font-size: 14px;
     }
-
     .envSmall{
       margin-top: 14px;
       font-size: 14px;
       color: rgba(0,0,0,.55);
     }
 
-    /* ===== Main site ===== */
-    .wrap{ max-width: 940px; margin: 0 auto; padding: 28px 16px 80px; }
+    /* ===== Main ===== */
+    .wrap{
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 18px 16px 80px;
+    }
 
     .hero{
       background: var(--card);
       border:1px solid var(--border);
       box-shadow: var(--shadow);
       border-radius: var(--radius);
-      padding: 20px 18px 16px;
+      padding: 18px 16px 16px;
       margin-bottom: 14px;
       position: relative;
-      overflow: hidden;
+      overflow:hidden;
     }
 
-    /* subtle vintage paper texture */
     .hero::before, .card::before{
       content:"";
       position:absolute;
@@ -227,12 +229,13 @@
     .names{
       font-family: "Great Vibes", cursive;
       font-weight: 400;
-      font-size: 56px;
+      font-size: clamp(40px, 8vw, 60px);
       line-height: 1.05;
-      margin: 12px 0 6px;
+      margin: 10px 0 6px;
       color: #2a141f;
       position: relative;
       z-index: 1;
+      text-align:center;
       text-shadow: 0 1px 0 rgba(255,255,255,.5);
       user-select: none;
     }
@@ -244,6 +247,7 @@
       font-size: 18px;
       position: relative;
       z-index: 1;
+      text-align:center;
     }
 
     .divider{
@@ -254,8 +258,12 @@
       z-index: 1;
     }
 
+    /* iPhone-friendly: buttons wrap + full width on small screens */
     .btnRow{
-      display:flex; gap:10px; flex-wrap: wrap;
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      justify-content:center;
       margin-top: 12px;
       position: relative;
       z-index: 1;
@@ -263,16 +271,17 @@
     .btn{
       border:1px solid rgba(216,90,139,.28);
       background: linear-gradient(180deg, #fff6fa, #ffe7f0);
-      padding: 10px 14px;
+      padding: 12px 14px;
       border-radius: 14px;
       cursor:pointer;
       font-weight: 700;
-      letter-spacing: .25px;
+      letter-spacing: .2px;
       font-family: "Cormorant Garamond", serif;
       color: #2a141f;
       box-shadow: 0 10px 18px rgba(0,0,0,.06);
+      min-height: 46px; /* good tap target */
     }
-    .btn:hover{ transform: translateY(-1px); transition:.12s; }
+    .btn:active{ transform: scale(.99); }
 
     .smallNote{
       font-size: 14px;
@@ -280,13 +289,10 @@
       margin-top: 10px;
       position: relative;
       z-index: 1;
+      text-align:center;
     }
 
-    .timeline{
-      display: grid;
-      gap: 14px;
-      margin-top: 14px;
-    }
+    .timeline{ display:grid; gap: 14px; margin-top: 14px; }
 
     .card{
       position: relative;
@@ -297,7 +303,6 @@
       overflow:hidden;
     }
 
-    /* soft rose + gold frame */
     .card::after{
       content:"";
       position:absolute;
@@ -313,11 +318,12 @@
       display:flex;
       align-items: baseline;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       position: relative;
       z-index: 1;
     }
+
     .title{
       margin:0;
       font-size: 22px;
@@ -325,15 +331,17 @@
       letter-spacing: .2px;
       color:#2a141f;
     }
+
     .date{
       color: rgba(0,0,0,.60);
       font-size: 15px;
       white-space: nowrap;
       border: 1px solid rgba(216,90,139,.22);
-      padding: 4px 10px;
+      padding: 6px 10px;
       border-radius: 999px;
       background: rgba(216,90,139,.08);
     }
+
     .meta{
       padding: 0 18px 12px;
       color: rgba(0,0,0,.60);
@@ -342,17 +350,20 @@
       z-index: 1;
     }
 
-    /* Photo proportions: show full image, no distortion */
+    /* ✅ Photo proportion fix + iPhone friendly:
+       - no distortion
+       - fits on screen
+       - tap to full-screen
+    */
     .img{
       width:100%;
-      height: auto;
-      max-height: 80vh;
+      height:auto;
+      max-height: 70vh;
       object-fit: contain;
       display:block;
       background: linear-gradient(180deg, rgba(216,90,139,.08), rgba(176,141,87,.05));
       cursor: zoom-in;
       padding: 10px 10px 0;
-      box-sizing: border-box;
       position: relative;
       z-index: 1;
     }
@@ -379,23 +390,21 @@
       font-size: 14px;
       letter-spacing: .25px;
     }
-    .footer span{
-      color: rgba(216,90,139,.95);
-      font-weight: 700;
-    }
+    .footer span{ color: rgba(216,90,139,.95); font-weight: 700; }
 
-    /* Modal for full-screen image */
+    /* ===== Modal (iPhone friendly) ===== */
     .modal{
-      position:fixed; inset:0;
+      position:fixed;
+      inset:0;
       display:none;
-      align-items:center; justify-content:center;
-      background: rgba(20,10,16,.68);
-      padding: 18px;
+      align-items:center;
+      justify-content:center;
+      background: rgba(20,10,16,.78);
+      padding: 14px;
       z-index: 999;
     }
     .modalBox{
-      max-width: 1000px;
-      width:100%;
+      width: min(1100px, 100%);
       border-radius: 18px;
       overflow:hidden;
       background: #160a10;
@@ -405,30 +414,40 @@
     }
     .modalImg{
       width:100%;
-      height: auto;
+      height:auto;
       display:block;
       background:#160a10;
     }
     .close{
       position:absolute;
-      top:10px; right:10px;
+      top: 10px;
+      right: 10px;
       border:none;
-      background: rgba(216,90,139,.22);
+      background: rgba(216,90,139,.26);
       color:#fff;
       padding: 10px 12px;
       border-radius: 12px;
       cursor:pointer;
       font-size: 14px;
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(216,90,139,.35);
+      min-height: 44px;
+      min-width: 44px;
     }
-    .close:hover{ background: rgba(216,90,139,.32); }
+    .close:active{ transform: scale(.99); }
+
+    /* Small screens: make buttons easier */
+    @media (max-width: 460px){
+      .btnRow{ gap: 8px; }
+      .btn{ flex: 1 1 45%; } /* two per row on iPhone */
+      .title{ font-size: 20px; }
+      .body{ font-size: 17px; }
+      .meta{ font-size: 14px; }
+    }
   </style>
 </head>
 
 <body>
   <!-- Royal Opening Seal -->
-  <div class="sealOverlay" id="sealOverlay">
+  <div class="sealOverlay" id="sealOverlay" role="dialog" aria-modal="true">
     <div class="envelope">
       <div class="envContent">
         <div class="royalTag">Sealed With Love</div>
@@ -452,7 +471,6 @@
   <div class="wrap">
     <div class="hero">
       <div class="pill">A Valentine Chronicle</div>
-
       <div class="names">Jasleen &amp; Daljeet</div>
 
       <p class="sub">
@@ -468,14 +486,14 @@
         <button class="btn" onclick="scrollToId('m3')">First Shoot</button>
         <button class="btn" onclick="scrollToId('m4')">Roka</button>
         <button class="btn" onclick="scrollToId('m5')">Close Moments</button>
+        <button class="btn" onclick="scrollToId('manifest')">Manifest</button>
       </div>
 
       <div class="smallNote">Tip: tap any photograph to view it full-screen ✨</div>
     </div>
 
     <div class="timeline">
-
-      <!-- 1: First Meet -->
+      <!-- First Meet -->
       <div class="card" id="m1">
         <div class="cardHead">
           <p class="title">Our First Meet ✨</p>
@@ -483,19 +501,12 @@
         </div>
         <div class="meta">one8 Commune, Gurgaon</div>
         <img class="img" src="first-meet.jpg" alt="First meet" onclick="openModal(this.src)" />
-        <div class="body">2 Aug 2025 — one8 Commune, Gurgaon
-
-That evening felt like a scene from an old story —
-a little nervousness, a little magic, and a lot of calm.
-
-Your smile made the world softer.
-And somewhere in my heart, I knew…
-this wasn’t just a meeting.
-
-It was the first page of our forever. ❤️</div>
+        <div class="body">That evening felt like a scene from an old love story.
+I walked in curious… I walked out certain.
+That was the first page of our forever. ❤️</div>
       </div>
 
-      <!-- 2: Second Meet -->
+      <!-- Second Meet -->
       <div class="card" id="m2">
         <div class="cardHead">
           <p class="title">Our Second Meet 💛</p>
@@ -503,39 +514,24 @@ It was the first page of our forever. ❤️</div>
         </div>
         <div class="meta">Delhi</div>
         <img class="img" src="second-meet.jpg" alt="Second meet" onclick="openModal(this.src)" />
-        <div class="body">9 Aug 2025 — Delhi
-
-The second time felt easier —
-like the universe had already introduced us properly.
-
-More laughter. More comfort.
-And a quiet certainty growing in my chest:
-I don’t just like you, Jasleen…
-I’m choosing you. Every day. 🌼</div>
+        <div class="body">More laughter. More comfort.
+And a quiet realization —
+I’m choosing you. Every day.</div>
       </div>
 
-      <!-- 3: First Professional Shoot -->
+      <!-- First Shoot -->
       <div class="card" id="m3">
         <div class="cardHead">
-          <p class="title">Our First Professional Shoot 📸</p>
+          <p class="title">First Professional Shoot 📸</p>
           <p class="date">16 Aug 2025</p>
         </div>
         <div class="meta">32nd Avenue (32 Street), Gurgaon</div>
         <img class="img" src="first-shoot.jpg" alt="First professional shoot" onclick="openModal(this.src)" />
-        <div class="body">16 Aug 2025 — 32nd Avenue, Gurgaon
-
-If love had a portrait, it would look like this —
-two hearts learning each other’s rhythm.
-
-We weren’t just posing for photographs;
-we were preserving a chapter
-we’ll tell our children someday.
-
-And your smile?
-It belongs in a palace. 👑❤️</div>
+        <div class="body">We weren’t just taking pictures.
+We were capturing the beginning of a legacy.</div>
       </div>
 
-      <!-- 4: Roka -->
+      <!-- Roka -->
       <div class="card" id="m4">
         <div class="cardHead">
           <p class="title">Roka Day 💍</p>
@@ -543,22 +539,11 @@ It belongs in a palace. 👑❤️</div>
         </div>
         <div class="meta">Delhi</div>
         <img class="img" src="roka.jpg" alt="Roka" onclick="openModal(this.src)" />
-        <div class="body">8 Oct 2025 — Delhi 💍
-
-That day felt royal — not because of the decor,
-but because of the promise we made.
-
-Standing beside you,
-watching our families smile,
-I felt calm… certain… grateful.
-
-I didn’t just gain a fiancée that day.
-I gained my queen, my best friend, my home.
-
-And this is only the beginning. ❤️</div>
+        <div class="body">That day felt royal —
+because I stood beside my queen. ❤️</div>
       </div>
 
-      <!-- 5: Close Moments -->
+      <!-- Close Moments -->
       <div class="card" id="m5">
         <div class="cardHead">
           <p class="title">Close Moments 🤍</p>
@@ -566,83 +551,80 @@ And this is only the beginning. ❤️</div>
         </div>
         <div class="meta">Roseate House Hotel</div>
         <img class="img" src="roseate.jpg" alt="Roseate House Hotel" onclick="openModal(this.src)" />
-        <div class="body">12 Oct 2025 — Roseate House Hotel 🤍
-
-Some moments feel like old-school romance —
-soft lights, quiet smiles, and just us.
-
-That day reminded me:
-love isn’t only the grand celebrations.
-It’s also the gentle in-between —
-the kind that feels timeless.
-
-Thank you for being my peace, Jasleen. 🤍</div>
+        <div class="body">Soft lights. Quiet smiles.
+Just us. Timeless.</div>
       </div>
 
-      <!-- Final note -->
-      <div class="card">
+      <!-- Manifest -->
+      <div class="card" id="manifest">
         <div class="cardHead">
-          <p class="title">A Note For You ❤️</p>
-          <p class="date">Valentine’s Day</p>
+          <p class="title">A Manifesto of Forever 👑</p>
+          <p class="date">For Us</p>
         </div>
-        <div class="body finalNote">
-Jasleen,
+        <div class="body finalNote">Jasleen,
 
-From one8 Commune to Delhi, from our first shoot to our Roka —
-every step with you has felt more certain and more beautiful.
+I’m manifesting our wedding — soon.
+Not rushed… just right.
+The kind of day that feels royal and timeless,
+with our families smiling and our hearts calm.
 
-I don’t want just a Valentine.
-I want a lifetime of ordinary days that feel extraordinary,
-simply because you are in them.
+And yes… I’m also manifesting twins. 😄
+Two tiny versions of us,
+running around, filling our home with laughter.
 
-Happy Valentine’s Day, my forever. ❤️
-        </div>
+Forever yours,
+Daljeet ❤️</div>
       </div>
-
     </div>
 
     <div class="footer">Made with <span>❤️</span> by Daljeet</div>
   </div>
 
   <!-- Image Modal -->
-  <div class="modal" id="modal" onclick="closeModal()">
+  <div class="modal" id="modal" onclick="closeModal()" role="dialog" aria-modal="true">
     <div class="modalBox" onclick="event.stopPropagation()">
-      <button class="close" onclick="closeModal()">Close ✕</button>
-      <img class="modalImg" id="modalImg" alt="full" />
+      <button class="close" onclick="closeModal()" aria-label="Close image">Close</button>
+      <img class="modalImg" id="modalImg" alt="full size" />
     </div>
   </div>
 
-<script>
-  function breakSeal(){
-    const overlay = document.getElementById("sealOverlay");
-    overlay.classList.add("hidden");
-    // allow animation to finish, then remove
-    setTimeout(() => overlay.style.display = "none", 650);
-  }
+  <script>
+    function breakSeal(){
+      const overlay = document.getElementById("sealOverlay");
+      overlay.classList.add("hidden");
+      // allow animation to finish, then remove
+      setTimeout(() => overlay.style.display = "none", 650);
+    }
 
-  function scrollToId(id){
-    document.getElementById(id).scrollIntoView({behavior:"smooth", block:"start"});
-  }
+    function scrollToId(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({behavior:"smooth", block:"start"});
+    }
 
-  function openModal(src){
-    const m = document.getElementById("modal");
-    document.getElementById("modalImg").src = src;
-    m.style.display = "flex";
-  }
+    function openModal(src){
+      document.getElementById("modalImg").src = src;
+      document.getElementById("modal").style.display = "flex";
+      // prevent background scroll on iPhone
+      document.body.style.overflow = "hidden";
+    }
 
-  function closeModal(){
-    document.getElementById("modal").style.display = "none";
-  }
+    function closeModal(){
+      document.getElementById("modal").style.display = "none";
+      document.body.style.overflow = "";
+    }
 
-  // Roka Counter (Month is 0-based: 9 = October)
-  const rokaDate = new Date(2025, 9, 8, 0, 0, 0);
-  const now = new Date();
-  const diffTime = now.getTime() - rokaDate.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  const rokaCounterEl = document.getElementById("rokaCounter");
-  if (rokaCounterEl) {
-    rokaCounterEl.innerText = (diffDays >= 0 ? diffDays : 0) + " days of us";
-  }
-</script>
+    // Close modal with ESC (nice on desktop)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    // Roka Counter (Month is 0-based: 9 = October)
+    const rokaDate = new Date(2025, 9, 8, 0, 0, 0);
+    const now = new Date();
+    const diffDays = Math.floor((now - rokaDate) / (1000 * 60 * 60 * 24));
+    const el = document.getElementById("rokaCounter");
+    if (el) el.textContent = (diffDays >= 0 ? diffDays : 0) + " days of us";
+  </script>
 </body>
 </html>
