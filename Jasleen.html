@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Jasleen ❤️ Daljeet</title>
+  <style>
+    :root{
+      --bg:#fff7f0;
+      --card:#ffffff;
+      --text:#1f1f1f;
+      --muted: rgba(0,0,0,.65);
+      --border: rgba(0,0,0,.08);
+      --shadow: 0 12px 32px rgba(0,0,0,.10);
+      --radius: 20px;
+    }
+    body{
+      margin:0;
+      font-family:-apple-system, system-ui, Segoe UI, Roboto, Arial;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap{ max-width: 860px; margin: 0 auto; padding: 26px 16px 70px; }
+    .hero{
+      background: var(--card);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 18px 18px;
+      margin-bottom: 14px;
+    }
+    h1{ margin: 6px 0 8px; font-size: 30px; letter-spacing: .2px; }
+    .sub{ margin: 0; color: var(--muted); line-height: 1.5; }
+    .pill{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background:#ffe3ea;
+      font-size: 12px;
+    }
+
+    .timeline{
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .cardHead{
+      padding: 14px 16px 10px;
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .title{
+      margin:0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .date{
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .img{
+      width:100%;
+      height: 360px;
+      object-fit: cover;
+      display:block;
+      background: #f2f2f2;
+      cursor: zoom-in;
+    }
+    .body{
+      padding: 12px 16px 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+      white-space: pre-wrap;
+    }
+    .footer{
+      margin-top: 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Modal for full-screen image */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      align-items:center; justify-content:center;
+      background: rgba(0,0,0,.55);
+      padding: 18px;
+    }
+    .modalBox{
+      max-width: 980px;
+      width:100%;
+      border-radius: 18px;
+      overflow:hidden;
+      background: #000;
+      position: relative;
+    }
+    .modalImg{
+      width:100%;
+      height: auto;
+      display:block;
+    }
+    .close{
+      position:absolute;
+      top:10px; right:10px;
+      border:none;
+      background: rgba(255,255,255,.18);
+      color:#fff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-size: 14px;
+      backdrop-filter: blur(8px);
+    }
+    .btnRow{
+      display:flex; gap:10px; flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight: 600;
+    }
+    .btn:hover{ transform: translateY(-1px); transition:.12s; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="pill">Our Story</div>
+      <h1>Jasleen ❤️ Daljeet</h1>
+      <p class="sub">
+        A tiny website for the biggest thing in my life.
+        <br/>Happy Valentine’s Day, my forever 🌹
+      </p>
+
+      <div class="btnRow">
+        <button class="btn" onclick="scrollToId('first')">First Meet</button>
+        <button class="btn" onclick="scrollToId('second')">Second Meet</button>
+        <button class="btn" onclick="scrollToId('roka')">Roka</button>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- 1 -->
+      <div class="card" id="first">
+        <div class="cardHead">
+          <p class="title">Our First Meet ✨</p>
+          <p class="date">Add date here</p>
+        </div>
+        <img class="img" src="first-meet.jpg" alt="First meet" onclick="openModal(this.src)" />
+        <div class="body">Write a 2–3 line memory here.
+Example:
+I still remember your smile and how suddenly everything felt… right.
+That day wasn’t just a meeting — it was the beginning of us.</div>
+      </div>
+
+      <!-- 2 -->
+      <div class="card" id="second">
+        <div class="cardHead">
+          <p class="title">Our Second Meet 💛</p>
+          <p class="date">Add date here</p>
+        </div>
+        <img class="img" src="second-meet.jpg" alt="Second meet" onclick="openModal(this.src)" />
+        <div class="body">Write a 2–3 line memory here.
+Example:
+We talked more, laughed more, and I quietly realized…
+I don’t just like you — I’m choosing you.</div>
+      </div>
+
+      <!-- 3 -->
+      <div class="card" id="roka">
+        <div class="cardHead">
+          <p class="title">Roka Day 💍</p>
+          <p class="date">Add date here</p>
+        </div>
+        <img class="img" src="roka.jpg" alt="Roka" onclick="openModal(this.src)" />
+        <div class="body">Write a 2–3 line memory here.
+Example:
+That day, it became official — but in my heart, it already was.
+I’m grateful for you, and excited for every chapter ahead.</div>
+      </div>
+
+      <!-- Final note -->
+      <div class="card">
+        <div class="cardHead">
+          <p class="title">A Note For You ❤️</p>
+          <p class="date">Valentine’s Day</p>
+        </div>
+        <div class="body" style="font-size:16px;color:rgba(0,0,0,.78)">
+Jasleen,
+you’re my calm, my best friend, and my home.
+
+I don’t want just a Valentine…
+I want a lifetime of small moments with you.
+
+Happy Valentine’s Day, my forever.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">Made with ❤️ by Daljeet</div>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="modal" id="modal" onclick="closeModal()">
+    <div class="modalBox" onclick="event.stopPropagation()">
+      <button class="close" onclick="closeModal()">Close ✕</button>
+      <img class="modalImg" id="modalImg" alt="full" />
+    </div>
+  </div>
+
+<script>
+  function scrollToId(id){
+    document.getElementById(id).scrollIntoView({behavior:"smooth", block:"start"});
+  }
+  function openModal(src){
+    const m = document.getElementById("modal");
+    document.getElementById("modalImg").src = src;
+    m.style.display = "flex";
+  }
+  function closeModal(){
+    document.getElementById("modal").style.display = "none";
+  }
+</script>
+</body>
+</html>
